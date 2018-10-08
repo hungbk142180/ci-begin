@@ -1,17 +1,21 @@
-package base;
+package base.player;
+import base.*;
 import base.counter.FrameCounter;
-import game.GameCanvas;
+import base.event.KeyEventPress;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import tklibs.SpriteUtils;
 import java.awt.image.BufferedImage;
 
 import base.renderer.AnimationRenderer;
-import base.renderer.SingleImageRenderer;
 
 import java.util.ArrayList;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Physics {
 //    boolean isValidFire;
     FrameCounter fireCounter;
+    BoxCollider collider;
+    int hp;
     public Player() {
         super();
 //        ArrayList<BufferedImage> images = new ArrayList<>();
@@ -36,6 +40,8 @@ public class Player extends GameObject {
         this.position = new Vector2D(Settings.START_PLAYER_POSITION_X, Settings.START_PLAYER_POSITION_Y);
 //        isValidFire = true;
         this.fireCounter = new FrameCounter(10);
+        this.collider = new BoxCollider(32,48);
+        this.hp = 20;
     }
 
     @Override
@@ -65,9 +71,9 @@ public class Player extends GameObject {
 //        if (this.fireCounter.run()) {
 //        PlayerBullet bullet = new PlayerBullet();
 //        GameCanvas.playerBullets.add(bullet);
-        PlayerBullet bullet1 = GameObject.recyle(PlayerBullet.class);
-        PlayerBullet bullet2 = GameObject.recyle(PlayerBullet.class);
-        PlayerBullet bullet3 = GameObject.recyle(PlayerBullet.class);
+        PlayerBullet bullet1 = GameObject.recycle(PlayerBullet.class);
+        PlayerBullet bullet2 = GameObject.recycle(PlayerBullet.class);
+        PlayerBullet bullet3 = GameObject.recycle(PlayerBullet.class);
 
         bullet1.velocity.set(0, -1);
         bullet2.velocity.set(-1, -1);
@@ -83,5 +89,18 @@ public class Player extends GameObject {
 
     public void move(int translateX, int translateY) {
         this.position.addThis(translateX, translateY);
+    }
+
+    public void takeDamage(int damage) {
+        this.hp -= damage;
+        if(this.hp <= 0) {
+            this.destroy(); // ~ this.isActive = false
+            hp = 0;
+        }
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.collider;
     }
 }

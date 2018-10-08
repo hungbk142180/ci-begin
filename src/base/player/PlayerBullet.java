@@ -1,15 +1,19 @@
-package base;
+package base.player;
 
+import base.physics.BoxCollider;
+import base.GameObject;
+import base.physics.Physics;
+import base.Vector2D;
+import base.enemy.Enemy;
 import base.renderer.AnimationRenderer;
 import tklibs.SpriteUtils;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PlayerBullet extends GameObject implements Physics {
-    Vector2D velocity;
-    BoxCollider collider;
+    public Vector2D velocity;
+    public BoxCollider collider;
     public PlayerBullet() {
         super();
         ArrayList<BufferedImage> images = SpriteUtils.loadImages(
@@ -30,11 +34,11 @@ public class PlayerBullet extends GameObject implements Physics {
         if(enemy != null) {
             enemy.destroy();
             this.destroy();
-            return;
         }
+
+        //Nếu viên đạn bay quá tầm màn hình thì sẽ bị destroy để sau này có thể recycle
         if(this.position.y < 0) {
             this.destroy();
-            return;
         }
         this.position.addThis(velocity.x, velocity.y);
     }

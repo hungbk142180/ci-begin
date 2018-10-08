@@ -1,5 +1,6 @@
 package base;
 
+import base.physics.Physics;
 import base.renderer.Renderer;
 
 import java.awt.*;
@@ -29,12 +30,14 @@ public class GameObject {
         }
     }
 
-    public static <E extends GameObject> E recyle(Class<E> childClass) {
+    public static <E extends GameObject> E recycle(Class<E> childClass) {
         //1. Kiểm tra có gameObject thỏa mãn yêu cầu (go.isActive == false && go instanceOf childClass)ko
         //  - Có: thì dùng lại
         //  - Ko có: thì tạo mới
         //2. Return gameObject
-        for(GameObject go: gameObjects) {
+        for(int i = 0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
+//        for(GameObject go: gameObjects) {
             if(!go.isActive && go.getClass().isAssignableFrom(childClass)) {
                 go.isActive = true;
                 return (E)go;
@@ -44,7 +47,9 @@ public class GameObject {
     }
 
     public static <E extends GameObject> E intersect(Class<E> childClass, Physics physics) {
-        for(GameObject go : gameObjects) {
+        for(int i = 0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
+//        for(GameObject go : gameObjects) {
             if(go.isActive && go.getClass().isAssignableFrom(childClass) && go instanceof Physics) {
                 Physics physicsGo = (Physics) go;
                 boolean intersected = physics.getBoxCollider().intersect(physicsGo, (GameObject) physics );
@@ -68,7 +73,9 @@ public class GameObject {
     }
 
     public static void renderAll(Graphics g) {
-        for(GameObject go: gameObjects) {
+        for(int i = 0; i < gameObjects.size(); i++) {
+            GameObject go = gameObjects.get(i);
+//        for(GameObject go: gameObjects) {
             if(go.isActive) {
                 go.render(g);
             }
@@ -79,7 +86,7 @@ public class GameObject {
 
 
 
-    Renderer renderer;
+    public Renderer renderer;
     public Vector2D position;
     public boolean isActive;
 

@@ -1,11 +1,12 @@
 package game;
 
 import base.*;
+import base.enemy.Enemy;
+import base.player.Player;
 //import tklibs.SpriteUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 //import java.awt.image.BufferedImage;
 
 public class GameCanvas extends JPanel {
@@ -16,10 +17,10 @@ public class GameCanvas extends JPanel {
 
     public GameCanvas() {
         //Khởi tạo các game object
-        this.background = GameObject.recyle(BackGround.class);
-        this.player = GameObject.recyle(Player.class);
+        this.background = GameObject.recycle(BackGround.class);
+        this.player = GameObject.recycle(Player.class);
 //        enemies = new ArrayList<>();
-        Enemy enemy = GameObject.recyle(Enemy.class);
+        Enemy enemy = GameObject.recycle(Enemy.class);
 //        playerBullets = new ArrayList<>();
     }
 
