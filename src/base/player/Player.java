@@ -16,6 +16,7 @@ public class Player extends GameObject implements Physics {
     FrameCounter fireCounter;
     BoxCollider collider;
     int hp;
+    Vector2D velocity;
     public Player() {
         super();
 //        ArrayList<BufferedImage> images = new ArrayList<>();
@@ -42,6 +43,7 @@ public class Player extends GameObject implements Physics {
         this.fireCounter = new FrameCounter(10);
         this.collider = new BoxCollider(32,48);
         this.hp = 20;
+        this.velocity = new Vector2D(0,0);
     }
 
     @Override
@@ -64,20 +66,20 @@ public class Player extends GameObject implements Physics {
 //        if(KeyEventPress.isFirePress) {
             this.fire();
         }
-
+        this.position.addThis(this.velocity);
     }
 
     public void fire() {
 //        if (this.fireCounter.run()) {
 //        PlayerBullet bullet = new PlayerBullet();
 //        GameCanvas.playerBullets.add(bullet);
-        PlayerBullet bullet1 = GameObject.recycle(PlayerBullet.class);
-        PlayerBullet bullet2 = GameObject.recycle(PlayerBullet.class);
-        PlayerBullet bullet3 = GameObject.recycle(PlayerBullet.class);
+        PlayerBulletType1 bullet1 = GameObject.recycle(PlayerBulletType1.class);
+        PlayerBulletType1 bullet2 = GameObject.recycle(PlayerBulletType1.class);
+        PlayerBulletType1 bullet3 = GameObject.recycle(PlayerBulletType1.class);
 
-        bullet1.velocity.set(0, -1);
-        bullet2.velocity.set(-1, -1);
-        bullet3.velocity.set(1, -1);
+        bullet1.velocity.set(0, -3);
+        bullet2.velocity.set(-1, -3);
+        bullet3.velocity.set(1, -3);
 
         bullet1.position.set(this.position.x, this.position.y);
         bullet2.position.set(this.position.x, this.position.y);
@@ -87,8 +89,20 @@ public class Player extends GameObject implements Physics {
 //        }
     }
 
-    public void move(int translateX, int translateY) {
-        this.position.addThis(translateX, translateY);
+    public void move(int velocityX, int velocityY) {
+        this.velocity.addThis(velocityX, velocityY);
+        this.velocity.set(clamp(velocity.x, -3, 3), clamp(velocity.y, -3, 3));
+    }
+
+    public float clamp(float number, float min, float max) {
+//        if(number < min) {
+//            return min;
+//        } else if (number > max) {
+//            return max;
+//        } else {
+//            return number;
+//        }
+        return number < min ? min : number > max ? max : number;
     }
 
     public void takeDamage(int damage) {

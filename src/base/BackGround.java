@@ -13,6 +13,7 @@ public class BackGround extends GameObject {
 //        this.image = image;
         this.renderer = new SingleImageRenderer("assets/images/background/0.png");
         this.position = new Vector2D(0, -(image.getHeight() - Settings.SCREEN_HEIGHT) /*SCREEN_HEIGHT*/);
+        this.anchor.set(0, 0);
     }
 
     @Override

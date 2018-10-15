@@ -34,7 +34,7 @@ public class EnemyBullet extends GameObject implements Physics {
         if(this.position.y > Settings.SCREEN_HEIGHT) {
             this.destroy();
     }
-        this.position.addThis(this.velocity.x, this.velocity.y);
+        this.position.addThis(this.velocity);
     }
 
     @Override

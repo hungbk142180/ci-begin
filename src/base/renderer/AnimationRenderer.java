@@ -2,6 +2,7 @@ package base.renderer;
 
 import base.GameObject;
 import base.counter.FrameCounter;
+import tklibs.SpriteUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +13,12 @@ public class AnimationRenderer extends Renderer {
     int currentImage = 0;
 //    int frameCount = 0;
     FrameCounter frameCounter;
+
+    public AnimationRenderer(String ...urls) {
+        ArrayList<BufferedImage> images = SpriteUtils.loadImages(urls);
+        this.images = images;
+        this.frameCounter = new FrameCounter(5);
+    }
 
     public AnimationRenderer(ArrayList<BufferedImage> images) {
         this.images = images;
@@ -26,7 +33,11 @@ public class AnimationRenderer extends Renderer {
     @Override
     public void render(Graphics g, GameObject master) {
         if (images.size() > 0) {
-            g.drawImage(images.get(currentImage), (int)master.position.x, (int)master.position.y, null);
+//            g.drawImage(images.get(currentImage), (int)master.position.x, (int)master.position.y, null);
+            BufferedImage image = images.get(currentImage);
+            double x = master.position.x - image.getWidth() * master.anchor.x;
+            double y = master.position.y - image.getHeight() * master.anchor.y;
+            g.drawImage(image, (int)x, (int)y, /*(int)master.position.x, (int)master.position.y,*/ null);
             if (this.frameCounter.run()) {
                 currentImage++;
                 if (currentImage >= images.size() - 1) {

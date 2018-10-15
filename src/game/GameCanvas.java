@@ -2,6 +2,7 @@ package game;
 
 import base.*;
 import base.enemy.Enemy;
+import base.enemy.EnemyType1;
 import base.player.Player;
 //import tklibs.SpriteUtils;
 
@@ -20,7 +21,7 @@ public class GameCanvas extends JPanel {
         this.background = GameObject.recycle(BackGround.class);
         this.player = GameObject.recycle(Player.class);
 //        enemies = new ArrayList<>();
-        Enemy enemy = GameObject.recycle(Enemy.class);
+        EnemyType1 enemy = GameObject.recycle(EnemyType1.class);
 //        playerBullets = new ArrayList<>();
     }
 
@@ -36,7 +37,7 @@ public class GameCanvas extends JPanel {
         GameObject.runAll();
     }
 
-    public void render(Graphics g) {
+    public void render(/*Graphics g*/) {
 //        background.render(g);
 //        player.render(g);
 //        for (Enemy enemy: enemies) {
@@ -45,11 +46,14 @@ public class GameCanvas extends JPanel {
 //        for (PlayerBullet playerBullet: playerBullets) {
 //            playerBullet.render(g);
 //        }
-        GameObject.renderAll(g);
+//        GameObject.renderAll(g);
+
+        GameObject.renderAllToBackBuffer();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        this.render(g);
+//        this.render(g);
+        GameObject.renderBackBufferToGame(g);
     }
 }

@@ -75,8 +75,10 @@ public class GameWindow extends JFrame {
             long currentTime = System.currentTimeMillis();
             if(currentTime - lastTime > delay) {
                 canvas.run(); //runAll()
-                this.repaint(); //renderAll()
+//                this.repaint(); //renderAll()
                 //JFrame.repaint()
+                canvas.render(); //render all to backBuffer
+                this.repaint(); //render backBuffer to game
                 lastTime = currentTime;
             }
         }
